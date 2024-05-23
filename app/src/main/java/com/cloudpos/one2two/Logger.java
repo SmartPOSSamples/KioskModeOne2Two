@@ -12,6 +12,26 @@ public class Logger {
         }
     }
 
+    private static String createTag() {
+        StackTraceElement[] sts = Thread.currentThread().getStackTrace();
+        if (sts == null) {
+            return null;
+        }
+        for (StackTraceElement st : sts) {
+            if (st.isNativeMethod()) {
+                continue;
+            }
+            if (st.getClassName().equals(Thread.class.getName())) {
+                continue;
+            }
+            if (st.getClassName().equals(Logger.class.getName())) {
+                continue;
+            }
+            return st.getLineNumber() + ":" + st.getFileName();
+        }
+        return "";
+    }
+
     public static void debug(String msg, Throwable tr) {
         if (level <= Log.DEBUG) {
             Log.d(createTag(), msg, tr);
@@ -52,26 +72,6 @@ public class Logger {
         if (level <= Log.ERROR) {
             Log.e(createTag(), msg, tr);
         }
-    }
-
-    private static String createTag() {
-        StackTraceElement[] sts = Thread.currentThread().getStackTrace();
-        if (sts == null) {
-            return null;
-        }
-        for (StackTraceElement st : sts) {
-            if (st.isNativeMethod()) {
-                continue;
-            }
-            if (st.getClassName().equals(Thread.class.getName())) {
-                continue;
-            }
-            if (st.getClassName().equals(Logger.class.getName())) {
-                continue;
-            }
-            return st.getLineNumber() + ":" + st.getFileName();
-        }
-        return "";
     }
 
 }

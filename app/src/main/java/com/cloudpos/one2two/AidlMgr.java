@@ -8,10 +8,10 @@ import android.content.ServiceConnection;
 
 public class AidlMgr {
 
+    private static AidlMgr instance;
+
     private AidlMgr() {
     }
-
-    private static AidlMgr instance;
 
     public static AidlMgr getInstance() {
         if (instance == null) {
@@ -20,19 +20,19 @@ public class AidlMgr {
         return instance;
     }
 
-    protected boolean startConnectService(Context host, ComponentName comp, ServiceConnection connection) {
-        Intent intent = new Intent();
-        intent.setComponent(comp);
-        boolean isSuccess = host.bindService(intent, connection, Context.BIND_AUTO_CREATE);
-        host.startService(intent);
-        return isSuccess;
-    }
-
     public boolean startSystemExtApiService(Context host, ServiceConnection connection) {
         ComponentName comp = new ComponentName(
                 "com.wizarpos.wizarviewagentassistant",
                 "com.wizarpos.wizarviewagentassistant.SystemExtApiService");
         boolean isSuccess = startConnectService(host, comp, connection);
+        return isSuccess;
+    }
+
+    protected boolean startConnectService(Context host, ComponentName comp, ServiceConnection connection) {
+        Intent intent = new Intent();
+        intent.setComponent(comp);
+        boolean isSuccess = host.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        host.startService(intent);
         return isSuccess;
     }
 

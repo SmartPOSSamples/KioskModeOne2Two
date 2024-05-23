@@ -7,15 +7,12 @@ import android.os.IBinder;
 
 import com.wizarpos.wizarviewagentassistant.aidl.ISystemExtApi;
 
-/**
- * create by rf.w 19-4-25下午1:59
- */
 public class AidlControl {
+
+    private static AidlControl instance;
 
     private AidlControl() {
     }
-
-    private static AidlControl instance;
 
     public static AidlControl getInstance() {
         if (instance == null) {
